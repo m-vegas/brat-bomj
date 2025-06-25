@@ -11,6 +11,7 @@
             --accent-color: #f5e79e;
             --text-color: #333;
             --light-color: #fff;
+            --gold-color: #FFD700;
         }
         
         body {
@@ -20,16 +21,20 @@
             margin: 0;
             padding: 0;
             line-height: 1.6;
+            position: relative;
+            overflow-x: hidden;
         }
         
+        /* Новый дизайн шапки */
         header {
-            background: linear-gradient(to right, var(--main-color), var(--secondary-color));
+            background: linear-gradient(135deg, var(--main-color), var(--secondary-color), #000);
             color: var(--light-color);
             text-align: center;
-            padding: 30px;
-            border-bottom: 5px solid #000;
+            padding: 40px 20px;
+            border-bottom: 5px solid var(--gold-color);
             position: relative;
             overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
         }
         
         header::before {
@@ -40,7 +45,7 @@
             right: 0;
             bottom: 0;
             background: url('https://pkzsk.info/wp-content/uploads/2021/11/skrinshot-08-11-2021-154358.png') center/cover;
-            opacity: 0.2;
+            opacity: 0.15;
             z-index: 0;
         }
         
@@ -54,6 +59,11 @@
             font-size: 3.5em;
             text-shadow: 3px 3px 6px #000;
             animation: glow 2s ease-in-out infinite alternate;
+            background: linear-gradient(to right, var(--gold-color), #fff, var(--gold-color));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: 2px;
         }
         
         @keyframes glow {
@@ -69,8 +79,10 @@
             max-width: 1200px;
             margin: 0 auto;
             padding: 20px;
+            position: relative;
         }
         
+        /* Обновленные карточки бомжей */
         .bomj-card {
             background-color: var(--light-color);
             border: 3px dashed var(--main-color);
@@ -81,13 +93,40 @@
             width: 280px;
             text-align: center;
             box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
-            transition: transform 0.3s, box-shadow 0.3s;
+            transition: all 0.4s ease;
             vertical-align: top;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .bomj-card::before {
+            content: "";
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            background: linear-gradient(45deg, var(--main-color), var(--secondary-color), var(--main-color));
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s;
+            background-size: 200% 200%;
+            animation: gradient 3s ease infinite;
+        }
+        
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
         
         .bomj-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.4);
+            transform: translateY(-10px) rotate(1deg);
+            box-shadow: 10px 10px 25px rgba(0, 0, 0, 0.4);
+        }
+        
+        .bomj-card:hover::before {
+            opacity: 0.1;
         }
         
         .bomj-card img {
@@ -97,12 +136,15 @@
             border-radius: 50%;
             border: 5px solid var(--main-color);
             cursor: pointer;
-            transition: transform 0.3s, border-color 0.3s;
+            transition: all 0.4s ease;
+            filter: grayscale(20%);
         }
         
         .bomj-card img:hover {
             transform: scale(1.1) rotate(5deg);
-            border-color: var(--secondary-color);
+            border-color: var(--gold-color);
+            filter: grayscale(0%);
+            box-shadow: 0 0 20px rgba(139, 69, 19, 0.5);
         }
         
         .bomj-card h3 {
@@ -110,6 +152,24 @@
             margin: 15px 0;
             font-size: 1.5em;
             text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+            position: relative;
+            display: inline-block;
+        }
+        
+        .bomj-card h3::after {
+            content: "";
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(to right, var(--main-color), var(--gold-color), var(--main-color));
+            transform: scaleX(0);
+            transition: transform 0.3s;
+        }
+        
+        .bomj-card:hover h3::after {
+            transform: scaleX(1);
         }
         
         .bomj-card p {
@@ -120,6 +180,9 @@
         .bomj-card .achievement {
             color: var(--secondary-color);
             font-weight: bold;
+            background-color: rgba(139, 69, 19, 0.1);
+            padding: 5px;
+            border-radius: 5px;
         }
         
         .bomj-card .quote {
@@ -128,15 +191,39 @@
             border-top: 1px dashed #ccc;
             padding-top: 10px;
             margin-top: 10px;
+            position: relative;
         }
         
+        .bomj-card .quote::before {
+            content: '"';
+            font-size: 2em;
+            color: var(--main-color);
+            position: absolute;
+            left: -5px;
+            top: -15px;
+            opacity: 0.3;
+        }
+        
+        .bomj-card .quote::after {
+            content: '"';
+            font-size: 2em;
+            color: var(--main-color);
+            position: absolute;
+            right: -5px;
+            bottom: -25px;
+            opacity: 0.3;
+        }
+        
+        /* Общие стили для секций */
         .history, .services, .gallery, .memes, .vacancies, .achievements, .testimonials, .faq {
             background-color: var(--light-color);
             padding: 25px;
             margin: 25px 0;
             border: 3px solid var(--main-color);
             border-radius: 15px;
-            box-shadow: 3px 3px 10px rgba(0,0,0,0.1);
+            box-shadow: 3px 3px 15px rgba(0,0,0,0.15);
+            position: relative;
+            overflow: hidden;
         }
         
         .history {
@@ -163,6 +250,7 @@
             z-index: 1;
         }
         
+        /* Улучшенные списки услуг */
         .services ul, .vacancies ul, .faq ul {
             list-style-type: none;
             padding: 0;
@@ -171,16 +259,35 @@
         .services li, .vacancies li {
             margin: 15px 0;
             font-weight: bold;
-            padding: 10px;
+            padding: 15px;
             border-left: 4px solid var(--main-color);
             background-color: rgba(139, 69, 19, 0.1);
-            transition: transform 0.3s;
+            transition: all 0.3s;
+            border-radius: 0 8px 8px 0;
+            position: relative;
+        }
+        
+        .services li::before, .vacancies li::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 100%;
+            background: linear-gradient(to right, rgba(139, 69, 19, 0.2), transparent);
+            transition: width 0.3s;
         }
         
         .services li:hover, .vacancies li:hover {
             transform: translateX(10px);
+            background-color: rgba(139, 69, 19, 0.15);
         }
         
+        .services li:hover::before, .vacancies li:hover::before {
+            width: 100%;
+        }
+        
+        /* Галерея и мемы */
         .gallery img, .memes img {
             width: 220px;
             height: 220px;
@@ -189,28 +296,50 @@
             border: 3px solid var(--main-color);
             border-radius: 15px;
             cursor: pointer;
-            transition: transform 0.3s, box-shadow 0.3s;
+            transition: all 0.4s ease;
+            box-shadow: 3px 3px 10px rgba(0,0,0,0.2);
         }
         
         .gallery img:hover, .memes img:hover {
             transform: scale(1.1) rotate(2deg);
-            box-shadow: 5px 5px 15px rgba(0,0,0,0.3);
+            box-shadow: 5px 5px 20px rgba(0,0,0,0.4);
+            border-color: var(--gold-color);
         }
         
+        /* Новый дизайн футера */
         footer {
-            background: linear-gradient(to right, var(--main-color), var(--secondary-color));
+            background: linear-gradient(135deg, var(--main-color), var(--secondary-color), #000);
             color: var(--light-color);
             text-align: center;
-            padding: 20px;
-            margin-top: 30px;
-            border-top: 5px solid #000;
+            padding: 30px 20px;
+            margin-top: 50px;
+            border-top: 5px solid var(--gold-color);
             font-size: 1.1em;
+            position: relative;
+        }
+        
+        footer::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('https://img.freepik.com/free-vector/grunge-texture-background_1048-6706.jpg') center/cover;
+            opacity: 0.1;
+            z-index: 0;
+        }
+        
+        footer * {
+            position: relative;
+            z-index: 1;
         }
         
         .contact {
             font-weight: bold;
             font-size: 1.2em;
             margin: 15px 0;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
         }
         
         /* Модальное окно */
@@ -243,6 +372,7 @@
             animation: zoomIn 0.3s;
             border: 5px solid var(--main-color);
             border-radius: 10px;
+            box-shadow: 0 0 30px rgba(139, 69, 19, 0.8);
         }
         
         @keyframes zoomIn {
@@ -257,38 +387,71 @@
             color: #f1f1f1;
             font-size: 50px;
             font-weight: bold;
-            transition: 0.3s;
+            transition: all 0.3s;
             cursor: pointer;
             text-shadow: 0 0 5px #000;
         }
         
         .close:hover {
-            color: #bbb;
-            transform: rotate(90deg);
+            color: var(--gold-color);
+            transform: rotate(90deg) scale(1.2);
         }
         
+        /* Секция "Присоединяйся" */
         .join-us {
             text-align: center;
             font-size: 1.5em;
             margin: 40px 0;
             padding: 30px;
-            background: linear-gradient(to right, var(--main-color), var(--secondary-color));
+            background: linear-gradient(135deg, var(--main-color), var(--secondary-color), #000);
             color: white;
             border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-            transition: transform 0.3s;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            transition: all 0.4s;
+            position: relative;
+            overflow: hidden;
+            border: 2px solid var(--gold-color);
+        }
+        
+        .join-us::before {
+            content: "";
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to bottom right,
+                transparent 45%,
+                rgba(255, 215, 0, 0.1) 48%,
+                rgba(255, 215, 0, 0.1) 52%,
+                transparent 55%
+            );
+            transform: rotate(30deg);
+            animation: shine 3s infinite;
+        }
+        
+        @keyframes shine {
+            0% { transform: translateX(-100%) rotate(30deg); }
+            100% { transform: translateX(100%) rotate(30deg); }
         }
         
         .join-us:hover {
             transform: scale(1.02);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
         }
         
         .join-us h2 {
             margin-top: 0;
             font-size: 2em;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            background: linear-gradient(to right, var(--gold-color), #fff, var(--gold-color));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
         }
         
+        /* Таймлайн */
         .timeline {
             position: relative;
             max-width: 1200px;
@@ -299,7 +462,7 @@
             content: '';
             position: absolute;
             width: 6px;
-            background-color: var(--main-color);
+            background: linear-gradient(to bottom, var(--main-color), var(--gold-color), var(--main-color));
             top: 0;
             bottom: 0;
             left: 50%;
@@ -325,6 +488,7 @@
             top: 15px;
             border-radius: 50%;
             z-index: 1;
+            box-shadow: 0 0 10px rgba(0,0,0,0.3);
         }
         
         .left {
@@ -371,7 +535,7 @@
             position: relative;
             border-radius: 10px;
             border: 2px solid var(--main-color);
-            box-shadow: 3px 3px 10px rgba(0,0,0,0.1);
+            box-shadow: 3px 3px 15px rgba(0,0,0,0.1);
         }
         
         .timeline-year {
@@ -379,8 +543,14 @@
             color: var(--main-color);
             font-size: 1.2em;
             margin-bottom: 10px;
+            display: inline-block;
+            padding: 5px 10px;
+            background-color: rgba(139, 69, 19, 0.1);
+            border-radius: 5px;
+            border-left: 3px solid var(--gold-color);
         }
         
+        /* Сетка достижений */
         .achievements-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -392,13 +562,30 @@
             background-color: var(--light-color);
             border: 2px solid var(--main-color);
             border-radius: 10px;
-            padding: 15px;
-            transition: transform 0.3s;
+            padding: 20px;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .achievement-item::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--main-color), var(--gold-color));
+            transition: width 0.3s;
         }
         
         .achievement-item:hover {
             transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+        }
+        
+        .achievement-item:hover::before {
+            width: 10px;
         }
         
         .achievement-title {
@@ -408,6 +595,24 @@
             margin-bottom: 10px;
             border-bottom: 1px dashed var(--main-color);
             padding-bottom: 5px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .achievement-title::before {
+            content: "🏆";
+            margin-right: 10px;
+            font-size: 1.3em;
+        }
+        
+        /* Исправленные отзывы */
+        .testimonials {
+            background-color: var(--light-color);
+            padding: 30px;
+            margin: 30px 0;
+            border: 3px solid var(--main-color);
+            border-radius: 15px;
+            box-shadow: 3px 3px 15px rgba(0,0,0,0.15);
         }
         
         .testimonials-slider {
@@ -415,24 +620,47 @@
             max-width: 800px;
             margin: 0 auto;
             overflow: hidden;
-            height: 300px;
+            min-height: 200px;
+            padding: 20px 0;
         }
         
         .testimonial {
             position: absolute;
             width: 100%;
-            padding: 20px;
+            padding: 30px;
             background-color: var(--light-color);
             border: 2px solid var(--main-color);
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
             transition: all 0.5s ease;
             opacity: 0;
+            top: 0;
+            left: 0;
+            box-sizing: border-box;
         }
         
         .testimonial.active {
             opacity: 1;
             z-index: 1;
+        }
+        
+        .testimonial-content {
+            position: relative;
+            padding: 20px;
+            background-color: rgba(139, 69, 19, 0.05);
+            border-radius: 10px;
+            border-left: 4px solid var(--main-color);
+        }
+        
+        .testimonial-content::before {
+            content: '"';
+            font-size: 60px;
+            position: absolute;
+            top: -20px;
+            left: 10px;
+            color: rgba(139, 69, 19, 0.2);
+            font-family: serif;
+            line-height: 1;
         }
         
         .testimonial-author {
@@ -441,32 +669,53 @@
             text-align: right;
             margin-top: 15px;
             font-style: italic;
+            position: relative;
+            padding-right: 20px;
+        }
+        
+        .testimonial-author::before {
+            content: "—";
+            margin-right: 5px;
         }
         
         .slider-nav {
             text-align: center;
-            margin-top: 20px;
+            margin-top: 30px;
         }
         
         .slider-dot {
             display: inline-block;
-            width: 12px;
-            height: 12px;
+            width: 15px;
+            height: 15px;
             background-color: #ccc;
             border-radius: 50%;
-            margin: 0 5px;
+            margin: 0 8px;
             cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+        
+        .slider-dot:hover {
+            transform: scale(1.2);
         }
         
         .slider-dot.active {
             background-color: var(--main-color);
+            border-color: var(--gold-color);
+            transform: scale(1.2);
         }
         
+        /* FAQ */
         .faq-item {
             margin-bottom: 15px;
             border: 1px solid var(--main-color);
             border-radius: 8px;
             overflow: hidden;
+            transition: all 0.3s;
+        }
+        
+        .faq-item:hover {
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
         }
         
         .faq-question {
@@ -477,22 +726,31 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            transition: all 0.3s;
+        }
+        
+        .faq-question:hover {
+            background-color: rgba(139, 69, 19, 0.15);
         }
         
         .faq-question::after {
             content: '+';
             font-size: 1.5em;
+            color: var(--main-color);
+            transition: all 0.3s;
         }
         
         .faq-question.active::after {
             content: '-';
+            color: var(--secondary-color);
         }
         
         .faq-answer {
             padding: 0 15px;
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.3s ease, padding 0.3s ease;
+            transition: all 0.3s ease;
+            background-color: rgba(255, 255, 255, 0.7);
         }
         
         .faq-question.active + .faq-answer {
@@ -500,35 +758,168 @@
             max-height: 500px;
         }
         
+        /* Счетчики */
         .counter-section {
             display: flex;
             justify-content: space-around;
             flex-wrap: wrap;
-            margin: 30px 0;
+            margin: 40px 0;
             text-align: center;
         }
         
         .counter-item {
             margin: 15px;
-            padding: 20px;
+            padding: 25px 20px;
             background-color: var(--light-color);
             border: 2px solid var(--main-color);
-            border-radius: 10px;
-            min-width: 150px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-radius: 15px;
+            min-width: 180px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .counter-item::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(to right, var(--main-color), var(--gold-color), var(--main-color));
+        }
+        
+        .counter-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
         }
         
         .counter-number {
             font-size: 2.5em;
             font-weight: bold;
             color: var(--main-color);
-            margin: 10px 0;
+            margin: 15px 0;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
         }
         
         .counter-label {
             font-size: 1.1em;
+            color: var(--secondary-color);
+            font-weight: bold;
         }
         
+        /* Анимация загрузки */
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--accent-color);
+            z-index: 9999;
+            transition: opacity 0.5s;
+        }
+        
+        .loading.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        .loading-spinner {
+            width: 60px;
+            height: 60px;
+            border: 6px solid rgba(139, 69, 19, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--main-color);
+            animation: spin 1s ease-in-out infinite;
+            position: relative;
+        }
+        
+        .loading-spinner::after {
+            content: "";
+            position: absolute;
+            top: -6px;
+            left: -6px;
+            right: -6px;
+            bottom: -6px;
+            border: 6px solid transparent;
+            border-radius: 50%;
+            border-top-color: var(--gold-color);
+            animation: spin 1.5s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Пасхалка - бомж */
+        .easter-egg {
+            position: fixed;
+            bottom: -100px;
+            right: 20px;
+            width: 80px;
+            height: 100px;
+            background: url('https://i.ytimg.com/vi/MJq9d7Vpyl4/maxresdefault.jpg') center/cover;
+            border-radius: 50% 50% 0 0;
+            cursor: pointer;
+            transition: all 0.5s ease;
+            z-index: 999;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+            border: 3px solid var(--main-color);
+        }
+        
+        .easter-egg:hover {
+            transform: scale(1.1);
+        }
+        
+        .easter-egg.active {
+            bottom: 20px;
+            animation: jump 0.5s ease 2;
+        }
+        
+        @keyframes jump {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        .easter-message {
+            position: fixed;
+            bottom: 150px;
+            right: 20px;
+            background-color: var(--light-color);
+            border: 3px solid var(--main-color);
+            border-radius: 15px;
+            padding: 15px;
+            max-width: 250px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            transform: scale(0);
+            transform-origin: bottom right;
+            transition: all 0.3s ease;
+            z-index: 999;
+        }
+        
+        .easter-message.active {
+            transform: scale(1);
+        }
+        
+        .easter-message::after {
+            content: "";
+            position: absolute;
+            bottom: -10px;
+            right: 30px;
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-top: 10px solid var(--main-color);
+        }
+        
+        /* Адаптивность */
         @media screen and (max-width: 768px) {
             .timeline::after {
                 left: 31px;
@@ -561,7 +952,7 @@
             
             .bomj-card {
                 width: 100%;
-                margin: 10px 0;
+                margin: 15px 0;
             }
             
             .gallery img, .memes img {
@@ -569,40 +960,20 @@
                 height: auto;
                 margin: 10px 0;
             }
-        }
-        
-        /* Анимация загрузки */
-        .loading {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: var(--accent-color);
-            z-index: 9999;
-            transition: opacity 0.5s;
-        }
-        
-        .loading.hidden {
-            opacity: 0;
-            pointer-events: none;
-        }
-        
-        .loading-spinner {
-            width: 50px;
-            height: 50px;
-            border: 5px solid rgba(139, 69, 19, 0.3);
-            border-radius: 50%;
-            border-top-color: var(--main-color);
-            animation: spin 1s ease-in-out infinite;
-        }
-        
-        @keyframes spin {
-            to { transform: rotate(360deg); }
+            
+            .counter-item {
+                width: 100%;
+                margin: 10px 0;
+            }
+            
+            .join-us {
+                padding: 20px;
+            }
+            
+            .easter-egg {
+                width: 60px;
+                height: 80px;
+            }
         }
     </style>
 </head>
@@ -610,6 +981,14 @@
     <!-- Анимация загрузки -->
     <div class="loading">
         <div class="loading-spinner"></div>
+    </div>
+
+    <!-- Пасхалка - бомж -->
+    <div class="easter-egg" title="Нажми на меня!"></div>
+    <div class="easter-message">
+        <strong>ВАЙЙ БРАТЬЯ БОМЖИ ПРИВЕТСТВУЮТ ТЕБЯ!</strong><br><br>
+        Ты нашел секретное послание! Приходи к нам в штаб-квартиру (за вокзалом) и получи бесплатную бутылку "Жигулёвского"!<br><br>
+        <small>*Только для своих</small>
     </div>
 
     <header>
@@ -669,325 +1048,147 @@
                         <p>Расширение бизнеса - теперь у нас есть филиал в каждом районе города. Конкуренты (бомжи-одиночки) либо присоединились, либо исчезли. Начата программа "Золотая бутылка" для VIP-клиентов.</p>
                     </div>
                 </div>
-                <div class="timeline-item left">
+                <div
+                                <div class="timeline-item left">
                     <div class="timeline-content">
                         <div class="timeline-year">2025</div>
-                        <p>Сегодня их боятся даже олигархи. Они знают, где лежит последняя бутылка "Столичной" и могут найти <strong>что угодно</strong> в куче хлама. Наши агенты работают на всех континентах (кроме Антарктиды, там холодно).</p>
+                        <p>Запуск космической программы "Бутылка на орбите". Первый бомж-космонавт успешно доставлен на МКС для сбора космического мусора. Начата разработка технологии "Вечного похмелья".</p>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="counter-section">
+        <section class="services">
+            <h2>НАШИ УСЛУГИ</h2>
+            <ul>
+                <li>Экспресс-очистка мусорных баков (ночью, пока никто не видит)</li>
+                <li>Продажа редких бутылок (коллекционные экземпляры 1980-х)</li>
+                <li>Обучение искусству выживания в городских джунглях</li>
+                <li>Курс "Как найти еду там, где её нет"</li>
+                <li>Услуги частного сыска (найдём что угодно, если это валяется на помойке)</li>
+                <li>Бутылочная почта (доставка сообщений в любую точку города)</li>
+                <li>Защита территории от конкурентов (методом психологического давления)</li>
+            </ul>
+        </section>
+
+        <section class="join-us">
+            <h2>ПРИСОЕДИНЯЙСЯ К НАМ!</h2>
+            <p>Устал от налогов, ипотеки и начальника? Стань частью нашей большой семьи!</p>
+            <p>Гарантируем: свободу, романтику и бутылку "Жигулёвского" в день зарплаты!</p>
+        </section>
+
+        <section class="counter-section">
             <div class="counter-item">
-                <div class="counter-number" id="bottles-counter">0</div>
+                <div class="counter-number">30+</div>
+                <div class="counter-label">Лет на рынке</div>
+            </div>
+            <div class="counter-item">
+                <div class="counter-number">500+</div>
+                <div class="counter-label">Сотрудников</div>
+            </div>
+            <div class="counter-item">
+                <div class="counter-number">1М+</div>
                 <div class="counter-label">Бутылок собрано</div>
             </div>
             <div class="counter-item">
-                <div class="counter-number" id="operations-counter">0</div>
-                <div class="counter-label">Успешных операций</div>
+                <div class="counter-number">100%</div>
+                <div class="counter-label">Удовлетворённости</div>
             </div>
-            <div class="counter-item">
-                <div class="counter-number" id="members-counter">0</div>
-                <div class="counter-label">Членов организации</div>
-            </div>
-            <div class="counter-item">
-                <div class="counter-number" id="countries-counter">0</div>
-                <div class="counter-label">Стран присутствия</div>
-            </div>
-        </div>
-
-        <h2>НАШИ ЛЕГЕНДАРНЫЕ ЛИДЕРЫ</h2>
-        <div class="bomj-card">
-            <img src="https://yandex-images.clstorage.net/Wjq9O9332/ef6231YzsjIY/xwoHA_6_g-9D3emD_Zmxil4Evjs2wCMHtrhdwNBDxl203-l7Wp4OMXhRWr4ydiJnkFZB_MVDA_Og5f2C13I26PNuw2fvKjbLIgipA83JkF-KNa_-loXyo5N42dVVxiZowkk-OX096dJP9qh8hoNn4oVHpXmBsLBChwa8gmfjgFj2GpRw2Jxy3_cdGYJdubBt_JTNvZcU0hVgW2mih6DxLWMILNk-DQpAXfXpjjQRREAHhRMLQmJiNsVXT-IHUPG59Fl209stwj5Ebrqgb_qSnx_V7SyVRUD1k0roQ_Uxcn_D6C74Py8p8nwGOpwnQeaSRDTj65NCQ0Q0VI1i9iMQK4SLBHIab4LsBZ8bo5268Dw-BW3-hvVhFlJqGhC1kUAvkNo9G88sCVI_NbgulYLX4Hf24zthUkNGxIWP0fWS0Ut0GjZQmIxj3udNG_M_-VBNvDZObuQFsLcjeBrChFDBTpMrrku9vLmhX8Y6DUcjZ9IGVpEZg2DipwbVXUNFINBZ9TtHQetNc40knrjzrRmDjc50397UNFF040gr0_axIP9CieyITr6ogXz3qg32Addh1majSwCxcTeHBfzg1AFwGITrdTLoPhMcB6648ayowJw8hM-s5gVz14GaKPAEMNEOwyve26xvK7Dvlivf90EUQieW8MgiQnFmRrevcLQxM-hE-GSzmD0BXVZ_a8E_qkOen6S8_QdU8sWTWrmSNACjXbOL3AkujRlz7xWZvgRCFSKmFlPZ8rEBpienb0NV8XD59Qi2Yaldc792f1mxfpjyTv92z51kpvHVwfg6IifzEh8hep8q7j45kn516vyFU_RylLTgOKGzIteEVy9gdTFTy9cqJKD7LlKsZ84ogw9IYvye9vxcZ3cihOJIiEDH4pO84Boc6nwOmrBP9dpd9_DmoJZXMRkioZHEdlZsMHRAMtiGiMdwioxxHfZfSDMNibAcjHXN3aaFYpaDS2uAA" alt="Кирилл">
-            <h3>Кирилл "Глаз Дракона"</h3>
-            <p>Главарь. Может выпить 5 литров самогона и не умереть.</p>
-            <p class="achievement"><strong>Достижения:</strong> Украл лампочку у Макрона (не подтверждено).</p>
-            <p class="quote">"Бутылка наполовину полная, если ты знаешь, где вторая половина!"</p>
-        </div>
-
-        <div class="bomj-card">
-            <img src="https://i.ytimg.com/vi/MJq9d7Vpyl4/maxresdefault.jpg" alt="Дима">
-            <h3>Дима "Огненная Борода"</h3>
-            <p>Поджигатель. Однажды сжег сарай, потому что там не было водки.</p>
-            <p class="achievement"><strong>Достижения:</strong> Переспорил философа на тему "Кто виноват?"</p>
-            <p class="quote">"Дым от костра — это просто воздушный суп!"</p>
-        </div>
-
-        <div class="bomj-card">
-            <img src="https://avatars.mds.yandex.net/i?id=2958c1984c235c0c66003fcbc055e0e4d86c9a53-4321889-images-thumbs&n=13" alt="Егор">
-            <h3>Егор "Крыса"</h3>
-            <p>Разведчик. Может украсть даже из кармана ФСБ.</p>
-            <p class="achievement"><strong>Достижения:</strong> Нашёл бутылку "Абсолюта" в мусорке у Зеленского.</p>
-            <p class="quote">"То, что вы выбросили — это мой завтрак!"</p>
-        </div>
-
-        <div class="bomj-card">
-            <img src="https://images-ext-1.discordapp.net/external/lHcJBu_wN227z6vOnMHdSnMqMZ67Ha6IFsTgaN71bBk/https/i.pinimg.com/736x/24/b5/4f/24b54f01f94071d56a155c387d09695e.jpg?format=webp&width=875&height=574" alt="Илья">
-            <h3>Илья "Беззубый"</h3>
-            <p>Убедительно объясняет прохожим, что «жизнь без обязательств — это кайф».</p>
-            <p class="achievement"><strong>Достижения:</strong> Ведёт статистику: кто чаще соглашается — бывшие менеджеры или алкоголики.</p>
-            <p class="quote">"Мои аргументы железные, как консервная банка!"</p>
-        </div>
-
-        <div class="services">
-            <h2>НАШИ ПРЕМИУМ УСЛУГИ</h2>
-            <ul>
-                <li>💥 <strong>Разборки за бутылку</strong> – решим любой спор в вашу пользу (если у вас есть алкоголь). Гарантия результата или вернем пустую тару!</li>
-                <li>🧦 <strong>Поиск пропавших носков</strong> – находим даже те, что исчезли в стиральной машине. Уникальная технология "Носочного радара".</li>
-                <li>🍾 <strong>Доставка "Столичной"</strong> – в любое время суток (но только если мы не спим). Экспресс-доставка на велосипеде с коляской.</li>
-                <li>🔫 <strong>Запугивание соседей</strong> – гарантируем, что больше не будут жаловаться на шум. Методы: от философских бесед до пения под окнами.</li>
-                <li>🏆 <strong>Фальшивые дипломы</strong> – сделаем вас доктором наук за пару бутылок пива. Хотите Нобелевку? Договоримся!</li>
-                <li>🔍 <strong>Поиск доказательств измены</strong> – найдём то, чего даже не было (но теперь будет). Фото, видео, показания "очевидцев".</li>
-                <li>💰 <strong>Инвестиции</strong> – знаем где спрятаны все клады города (но пока не делимся). Консультации по "мусорной" экономике.</li>
-                <li>🚔 <strong>Юридическая помощь</strong> – научим как договориться с полицией за бутылку "Жигулёвского". Опыт 30 лет в "полевых" условиях.</li>
-                <li>🛠️ <strong>Ремонт всего</strong> – починим что угодно скотчем и палкой. Гарантия 5 минут или пока вы не ушли.</li>
-                <li>🎤 <strong>Караоке-вечеринка</strong> – споём про вашу жизнь так, что соседи вызовут "скорую". Репертуар от Высоцкого до "Ласкового мая".</li>
-                <li>🕵️ <strong>Детективные услуги</strong> – найдём кто съел ваш холодец. Специальная операция "Новогоднее застолье".</li>
-                <li>🎓 <strong>Тренинги</strong> – научим выживать в любых условиях. Курс "Как прожить на 100 рублей в месяц и не умереть".</li>
-            </ul>
-        </div>
-
-        <div class="achievements">
-            <h2>НАШИ ДОСТИЖЕНИЯ</h2>
-            <p>За годы работы мы достигли невероятных результатов в области альтернативного образа жизни:</p>
-            
-            <div class="achievements-grid">
-                <div class="achievement-item">
-                    <div class="achievement-title">🏆 Мировой рекорд</div>
-                    <p>Собрали 1 000 000 бутылок за год. Книга рекордов Гиннесса отказалась регистрировать, но мы знаем правду!</p>
-                </div>
-                <div class="achievement-item">
-                    <div class="achievement-title">🌍 Международное признание</div>
-                    <p>Наши филиальы работают в 5 странах. Даже в Швейцарии есть наши агенты!</p>
- </div>
-<div class="achievement-item">
-<div class="achievement-title">🔝 Элитное членство</div>
-<p>В наш клуб входят бывшие олигархи, которые теперь ценят простые радости жизни.</p>
-</div>
-<div class="achievement-item">
-<div class="achievement-title">💡 Инновации</div>
-<p>Разработали технологию "Вечного костра" - горит 3 месяца от одной зажигалки.</p>
-</div>
-<div class="achievement-item">
-<div class="achievement-title">🍲 Кулинарные победы</div>
-<p>Наш суп из картофельных очистков получил 5 звезд от бездомного Мишлена.</p>
-</div>
-<div class="achievement-item">
-<div class="achievement-title">🏅 Спортивные достижения</div>
-<p>Установили рекорд по бегу от дворника - 100 метров за 9.58 секунд.</p>
-</div>
-</div>
-</div>
-    <div class="gallery">
-        <h2>ГАЛЕРЕЯ НАШИХ ПОБЕД</h2>
-        <img src="https://www.worldbank.org/content/dam/photos/780x439/2017/sep-3/EAP-CITIES-oct-2017.png" alt="Штаб-квартира">
-        <img src="https://ic.pics.livejournal.com/masterok/50816465/5098317/5098317_original.jpg" alt="Собрание совета директоров">
-        <img src="https://cs13.pikabu.ru/post_img/2020/05/07/9/1588863178117151477.jpg" alt="Корпоративное мероприятие">
-        <img src="https://masterpiecer-images.s3.yandex.net/caba5da692f811ee9b58720ccb3e265f:upscaled" alt="Тренировка новобранцев">
-        <img src="https://cs14.pikabu.ru/post_img/big/2022/11/01/5/1667286581121991515.jpg" alt="Награждение лучших сотрудников">
-        <img src="https://www.sb.by/images/2014/2014/november/bgodag12_1.jpg" alt="Научная лаборатория">
+        </section>
     </div>
 
-    <div class="memes">
-        <h2>МЕМЫ О НАС</h2>
-        <p>Народное творчество в нашу честь:</p>
-        <img src="https://images2.memedroid.com/images/UPLOADED46/52eb331deb8d1.jpeg" alt="Мем 1">
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwp1gaMadVIOcfCJmzt8PL4mMHw5riwjptKw&s" alt="Мем 2">
-        <img src="https://cdn.idaprikol.ru/images/d08ce66e91a36342593f9fe3465055d1d0f07ab72f0d5eb1909c82376d7c2f8b_1.jpg" alt="Мем 3">
+    <footer>
+        <div class="contact">
+            ШТАБ-КВАРТИРА: заброшенный вагон за вокзалом<br>
+            ТЕЛЕФОН: постучите три раза по мусорному баку<br>
+            EMAIL: vaibomji@помойка.ру
+        </div>
+        <p>© 2025 ОАО "ВАЙ-БРАТЬЯ БОМЖИ". Все права не защищены.</p>
+    </footer>
+
+    <!-- Модальное окно для изображений -->
+    <div id="imageModal" class="modal">
+        <span class="close">&times;</span>
+        <img class="modal-content" id="modalImage">
     </div>
 
-    <div class="vacancies">
-        <h2>ВАКАНСИИ</h2>
-        <p>Мы всегда рады новым талантам! Требования:</p>
-        <ul>
-            <li>Способность спать на бетоне</li>
-            <li>Умение находить алкоголь в радиусе 500 метров</li>
-            <li>Опыт философских дискуссий с дворниками</li>
-            <li>Знание всех помойк в городе наизусть</li>
-            <li>Иммунитет к любым болезням (кроме похмелья)</li>
-        </ul>
-        <p>Условия:</p>
-        <ul>
-            <li>Гибкий график (когда проснулся)</li>
-            <li>Соцпакет (пластиковая бутылка для воды)</li>
-            <li>Карьерный рост (от новичка до короля помойки за 3 месяца)</li>
-            <li>Корпоративы (когда найдем выпивку)</li>
-        </ul>
-    </div>
-
-   <div class="testimonials">
-    <h2>ОТЗЫВЫ НАШИХ КЛИЕНТОВ</h2>
-    <div class="testimonials-slider">
-        <div class="testimonial active">
-            <div class="testimonial-content">
-                <p>"Заказал у ребят запугивание соседа - теперь он сам приносит мне пиво по выходным! 10/10"</p>
-                <div class="testimonial-author">— Сергей, бывший менеджер</div>
-            </div>
-        </div>
-        <div class="testimonial">
-            <div class="testimonial-content">
-                <p>"Нашли мои потерянные ключи в рекордные сроки - всего за 2 бутылки пива! Теперь только к ним."</p>
-                <div class="testimonial-author">— Ольга, домохозяйка</div>
-            </div>
-        </div>
-        <div class="testimonial">
-            <div class="testimonial-content">
-                <p>"Благодаря их тренингу я научился экономить! Теперь живу на 50 рублей в день и счастлив."</p>
-                <div class="testimonial-author">— Дмитрий, бывший олигарх</div>
-            </div>
-        </div>
-    </div>
-    <div class="slider-nav">
-        <span class="slider-dot active"></span>
-        <span class="slider-dot"></span>
-        <span class="slider-dot"></span>
-    </div>
-</div>
-    <div class="faq">
-        <h2>ЧАСТО ЗАДАВАЕМЫЕ ВОПРОСЫ</h2>
-        <div class="faq-item">
-            <div class="faq-question">Как вступить в вашу организацию?</div>
-            <div class="faq-answer">
-                <p>Пройти обряд посвящения: найти бутылку "Столичной" в мусорке за 5 минут, переспорить нашего философа и проспать 3 дня на стройке.</p>
-            </div>
-        </div>
-        <div class="faq-item">
-            <div class="faq-question">Есть ли у вас медицинская страховка?</div>
-            <div class="faq-answer">
-                <p>Да, это бутылка йода и газета "Советский спорт" для перевязок.</p>
-            </div>
-        </div>
-        <div class="faq-item">
-            <div class="faq-question">Как вы относитесь к конкурентам?</div>
-            <div class="faq-answer">
-                <p>Все конкуренты либо работают на нас, либо спят в нашем подвале. Выбор за вами!</p>
-            </div>
-        </div>
-        <div class="faq-item">
-            <div class="faq-question">Планируете ли вы выход на IPO?</div>
-            <div class="faq-answer">
-                <p>Уже вышли - наши акции торгуются за бутылочные крышки на подпольной бирже.</p>
-            </div>
-        </div>
-    </div>
-
-    <div class="join-us">
-        <h2>ХОЧЕШЬ СТАТЬ ЧАСТЬЮ ЛЕГЕНДЫ?</h2>
-        <p>Приходи к нам в штаб-квартиру (заброшенная теплушка за вокзалом) с бутылкой чего-нибудь крепкого!</p>
-        <p>Или просто крикни: <strong></strong> ВАЙЙ БРАТЬЯ БОМЖИ !!</p>
-    </div>
-</div>
-
-<footer>
-    <div class="contact">
-        ОАО "ВАЙ-БРАТЬЯ БОМЖИ" © 1993-2025<br>
-        Официальный сайт самой влиятельной организации в мире
-  </div>
-        
-        ⚠️ Внимание! Сайт является пародией и создан исключительно в развлекательных целях.
-    </div>
-    <p>Все права защищены (если кто-то попробует их нарушить, мы знаем, где он живёт)</p>
-</footer>
-
-<!-- Модальное окно для изображений -->
-<div id="imageModal" class="modal">
-    <span class="close">&times;</span>
-    <img class="modal-content" id="modalImage">
-</div>
-
-<script>
-    // Анимация загрузки
-    window.addEventListener('load', function() {
-        setTimeout(function() {
-            document.querySelector('.loading').classList.add('hidden');
-        }, 1000);
-    });
-
-    // Слайдер отзывов
-    let currentSlide = 0;
-    const slides = document.querySelectorAll('.testimonial');
-    const dots = document.querySelectorAll('.slider-dot');
-
-    function showSlide(n) {
-        slides.forEach(slide => slide.classList.remove('active'));
-        dots.forEach(dot => dot.classList.remove('active'));
-        
-        currentSlide = (n + slides.length) % slides.length;
-        slides[currentSlide].classList.add('active');
-        dots[currentSlide].classList.add('active');
-    }
-
-    dots.forEach((dot, index) => {
-        dot.addEventListener('click', () => showSlide(index));
-    });
-
-    // Автоматическая смена слайдов
-    setInterval(() => showSlide(currentSlide + 1), 5000);
-
-    // FAQ аккордеон
-    const faqQuestions = document.querySelectorAll('.faq-question');
-    faqQuestions.forEach(question => {
-        question.addEventListener('click', () => {
-            question.classList.toggle('active');
+    <script>
+        // Анимация загрузки
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                document.querySelector('.loading').classList.add('hidden');
+            }, 1000);
         });
-    });
 
-    // Модальное окно для изображений
-    const modal = document.getElementById('imageModal');
-    const modalImg = document.getElementById('modalImage');
-    const closeBtn = document.querySelector('.close');
-
-    document.querySelectorAll('.gallery img, .memes img, .bomj-card img').forEach(img => {
-        img.addEventListener('click', function() {
-            modal.style.display = 'block';
-            modalImg.src = this.src;
+        // Пасхалка
+        const easterEgg = document.querySelector('.easter-egg');
+        const easterMessage = document.querySelector('.easter-message');
+        
+        easterEgg.addEventListener('click', function() {
+            this.classList.toggle('active');
+            easterMessage.classList.toggle('active');
         });
-    });
 
-    closeBtn.addEventListener('click', () => {
-        modal.style.display = 'none';
-    });
-
-    window.addEventListener('click', (e) => {
-        if (e.target === modal) {
-            modal.style.display = 'none';
+        // Модальное окно
+        const modal = document.getElementById("imageModal");
+        const modalImg = document.getElementById("modalImage");
+        const closeBtn = document.getElementsByClassName("close")[0];
+        
+        // Получаем все изображения, которые должны открываться в модальном окне
+        const images = document.querySelectorAll('.gallery img, .memes img, .bomj-card img');
+        
+        images.forEach(img => {
+            img.addEventListener('click', function() {
+                modal.style.display = "block";
+                modalImg.src = this.src;
+            });
+        });
+        
+        closeBtn.onclick = function() {
+            modal.style.display = "none";
         }
-    });
-
-    // Анимация счетчиков
-    function animateCounter(elementId, target, duration = 2000) {
-        const element = document.getElementById(elementId);
-        const start = 0;
-        const increment = target / (duration / 16);
-        let current = start;
-
-        const timer = setInterval(() => {
-            current += increment;
-            if (current >= target) {
-                clearInterval(timer);
-                current = target;
+        
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
             }
-            element.textContent = Math.floor(current).toLocaleString();
-        }, 16);
-    }
-
-    // Запуск счетчиков при прокрутке до них
-    function checkCounters() {
-        const countersSection = document.querySelector('.counter-section');
-        const sectionTop = countersSection.getBoundingClientRect().top;
-        const windowHeight = window.innerHeight;
-
-        if (sectionTop < windowHeight - 100 && !countersSection.classList.contains('animated')) {
-            countersSection.classList.add('animated');
-            animateCounter('bottles-counter', 1256789);
-            animateCounter('operations-counter', 3421);
-            animateCounter('members-counter', 587);
-            animateCounter('countries-counter', 5);
         }
-    }
 
-    window.addEventListener('scroll', checkCounters);
-    window.addEventListener('load', checkCounters);
-</script>
-</body> </html>
+        // FAQ аккордеон
+        const faqQuestions = document.querySelectorAll('.faq-question');
+        
+        faqQuestions.forEach(question => {
+            question.addEventListener('click', () => {
+                question.classList.toggle('active');
+            });
+        });
+
+        // Слайдер отзывов
+        let currentTestimonial = 0;
+        const testimonials = document.querySelectorAll('.testimonial');
+        const dots = document.querySelectorAll('.slider-dot');
+        
+        function showTestimonial(index) {
+            testimonials.forEach(testimonial => testimonial.classList.remove('active'));
+            dots.forEach(dot => dot.classList.remove('active'));
+            
+            testimonials[index].classList.add('active');
+            dots[index].classList.add('active');
+            currentTestimonial = index;
+        }
+        
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => showTestimonial(index));
+        });
+        
+        // Автопереключение слайдов
+        setInterval(() => {
+            currentTestimonial = (currentTestimonial + 1) % testimonials.length;
+            showTestimonial(currentTestimonial);
+        }, 5000);
+        
+        // Показать первый слайд
+        showTestimonial(0);
+    </script>
+</body>
+</html>
